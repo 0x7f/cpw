@@ -46,7 +46,7 @@ ssize_t getline(char **lineptr, size_t *n, FILE *stream) {
         size = 128;
     }
     p = bufptr;
-    while(c != EOF) {
+    while (c != EOF) {
         if ((p - bufptr) > (size - 1)) {
             size = size + 128;
             bufptr = realloc(bufptr, size);
@@ -69,10 +69,10 @@ ssize_t getline(char **lineptr, size_t *n, FILE *stream) {
 }
 #endif
 
-static void copy_to_clipboard(char* str) {
+static void copy_to_clipboard(char *str) {
 #ifdef _WIN32
     const size_t len = strlen(str) + 1;
-    HGLOBAL hMem =  GlobalAlloc(GMEM_MOVEABLE, len);
+    HGLOBAL hMem = GlobalAlloc(GMEM_MOVEABLE, len);
     memcpy(GlobalLock(hMem), str, len);
     GlobalUnlock(hMem);
     OpenClipboard(0);
@@ -82,9 +82,9 @@ static void copy_to_clipboard(char* str) {
 #endif
 }
 
-int main(int argc, char** argv) {
-    char* ACCOUNT_DIR = "Z:\\Accounts";
-    char* PASSWORD_PREFIX = "password: ";
+int main(int argc, char **argv) {
+    char *ACCOUNT_DIR = "Z:\\Accounts";
+    char *PASSWORD_PREFIX = "password: ";
     size_t PASSWORD_PREFIX_LEN = strlen(PASSWORD_PREFIX);
 
     if (argc != 2) {
@@ -92,12 +92,12 @@ int main(int argc, char** argv) {
         return EXIT_FAILURE;
     }
 
-    char* account = argv[1];
-    char* account_file = (char*)malloc(MAX_PATH);
+    char *account = argv[1];
+    char *account_file = (char *)malloc(MAX_PATH);
     snprintf(account_file, MAX_PATH - 1, "%s\\%s.txt", ACCOUNT_DIR, account);
     fprintf(stdout, "Trying to open %s\n", account_file);
 
-    FILE* fp = fopen(account_file, "r");
+    FILE *fp = fopen(account_file, "r");
     if (fp == NULL) {
         fprintf(stderr, "Error: account \"%s\" not found.\n", account);
         return EXIT_FAILURE;
@@ -105,8 +105,8 @@ int main(int argc, char** argv) {
 
     ssize_t read;
     size_t len = 0;
-    char* line = NULL;
-    char* password = NULL;
+    char *line = NULL;
+    char *password = NULL;
     while ((read = getline(&line, &len, fp)) != -1) {
         if (strncmp(line, PASSWORD_PREFIX, PASSWORD_PREFIX_LEN) != 0) {
             continue;
