@@ -20,4 +20,6 @@ if (MSVC)
     endforeach()
 endif()
 
-add_executable(${PROJECT_NAME} cpw.c)
+add_executable(cpw cpw.c)
+add_executable(cmount cmount.c)
+target_link_libraries(cmount Shlwapi.lib)
